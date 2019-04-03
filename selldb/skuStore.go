@@ -74,13 +74,13 @@ func GetSkusByMachineType(machineType string) (SKUs, error) {
 
 	q := fmt.Sprintf(`
 		SELECT
-			*
+			s.*
 		FROM 
-			%[1]s.sku
+			%[1]s.sku s
 			LEFT OUTER JOIN %[1]s.coffee_machine cm ON cm.id = s.coffee_machine_id
 		WHERE 
 			cm.machine_type = '?' 
-		GROUP BY sku_id`,
+		GROUP BY s.sku_id`,
 		DBName)
 
 	var skus SKUs
@@ -103,7 +103,7 @@ func GetSkusByPodType(podType string) (SKUs, error) {
 			LEFT OUTER JOIN %[1]s.coffee_pod cp ON cp.id = s.coffee_pod_id
 		WHERE 
 			cp.pod_type = '?' 
-		GROUP BY sku_id`,
+		GROUP BY s.sku_id`,
 		DBName)
 
 	var skus SKUs
